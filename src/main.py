@@ -7,6 +7,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 
 if __name__ == "__main__":
     tf.config.threading.set_inter_op_parallelism_threads(0)
+    tf.config.threading.set_intra_op_parallelism_threads(0)
 
     parser = argparse.ArgumentParser(description="Train and evaluate a CNN for network intrusion detection.")
     parser.add_argument("--class_config", type=int, choices=[2, 6, 19], default=2,
