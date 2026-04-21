@@ -1,3 +1,4 @@
+from concurrent.futures import ProcessPoolExecutor
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from tensorflow.keras.utils import to_categorical
@@ -84,14 +85,21 @@ def get_attack_category(file_name, class_config):
     for key in categories:
         if key in file_name:
             return categories[key]
+
+def load_single_csv(file_path):
+    return pd.read_csv(file_path).assign(file=file_path)
         
 def load_and_preprocess_data(data_dir, class_config):
     """Load, preprocess, and prepare data for training."""
     train_files = [f"{data_dir}/train/{f}" for f in os.listdir(f"{data_dir}/train") if f.endswith('.csv')]
     test_files = [f"{data_dir}/test/{f}" for f in os.listdir(f"{data_dir}/test") if f.endswith('.csv')]
 
-    train_df = pd.concat([pd.read_csv(f).assign(file=f) for f in train_files], ignore_index=True)
-    test_df = pd.concat([pd.read_csv(f).assign(file=f) for f in test_files], ignore_index=True)
+    with ProcessPoolExecutor() as executor:
+        train_df_list = list(executor.map(load_single_csv, train_files))
+        test_df_list = list(executor.map(load_single_csv, test_files))
+
+    train_df = pd.concat(train_df_list, ignore_index=True)
+    test_df = pd.concat(test_df_list, ignore_index=True)
 
     train_df['Attack_Type'] = train_df['file'].apply(lambda x: get_attack_category(x, class_config))
     test_df['Attack_Type'] = test_df['file'].apply(lambda x: get_attack_category(x, class_config))

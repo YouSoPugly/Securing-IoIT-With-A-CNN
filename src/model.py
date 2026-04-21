@@ -17,6 +17,14 @@ def create_cnn_model(input_shape, num_classes):
     return model
 
 def train_model(model, X_train, y_train_categorical, X_val, y_val_categorical, epochs=10, batch_size=32):
+    # Convert NumPy arrays to tf.data.Dataset
+    train_ds = tf.data.Dataset.from_tensor_slices((X_train, y_train_categorical))
+    val_ds = tf.data.Dataset.from_tensor_slices((X_val, y_val_categorical))
+
+    # Parallelize the data pipeline
+    train_ds = train_ds.shuffle(buffer_size=1024).batch(batch_size).prefetch(tf.data.AUTOTUNE)
+    val_ds = val_ds.batch(batch_size).prefetch(tf.data.AUTOTUNE)
+
     """Train the CNN model."""
     model.fit(X_train, y_train_categorical, epochs=epochs, batch_size=batch_size, 
               validation_data=(X_val, y_val_categorical))
