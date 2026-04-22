@@ -1,97 +1,64 @@
-# Securing Healthcare with Deep Learning: A CNN-Based Model for medical IoT Threat Detection
-
-<div align="center">
-
-[![IEEE Conference](https://img.shields.io/badge/IEEE-ICIS%202024-blue.svg)](https://doi.org/10.1109/ICIS64839.2024.10887510)
-[![arXiv](https://img.shields.io/badge/arXiv-2410.23306-b31b1b.svg)](https://arxiv.org/abs/2410.23306)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
-[![Presentation](https://img.shields.io/badge/YouTube-Presentation-red.svg)](https://youtu.be/hPV5H9kTbYM?si=fWtb_eaIiLQ3uGEy)
-
-*Official Implementation - Presented at the 19th Iranian Conference on Intelligent Systems (ICIS 2024)* **IEEE Indexed**
-</div>
-
-
----
-
+# CS.4371 Group 6 Project
 ## Overview
-This repository provides the implementation of our CNN-based intrusion detection model for Internet of Medical Things (IoMT) systems. The model performs multi-class classification on network traffic, distinguishing 19 attack types as well as benign traffic using the CICIoMT2024 dataset. All source code corresponds to the work presented in our paper. If you use or reference this repository, please **cite** [our paper](#-citation). This work has received **15+ citations** and **20+ GitHub stars**.
+This project evaluates the robustness of the 1D-CNN architecture originally proposed for Medical IoT (IoMT) when applied to Industrial IoT (IIoT) environments. 
 
-**Key Features:**
-- Multi-classification support: Binary (2-class), Categorical (6-class), and Multiclass (19-class)
-- Perfect accuracy of 0.99 across all classification tasks
-- Outperforms previous state-of-the-art methods
----
+Following the "archeology of ideas" in this field:
+* **Foundational Bedrock:** Our work is built upon the research done by **Mohammadi et al. (2024)** [1], which established the effectiveness of CNNs in detecting threats within healthcare IoT device traffic.
+* **Contemporary Context:** We acknowledge and build upon the findings of **Firouzi et al. (2025)** [2], who introduced the **IIoT 2025 Dataset**. This dataset represents the modern landscape of industrial sensor attacks that our implementation aims to mitigate.
 
-## Performance Metrics
-
-<div align="center">
-
-![Model Comparison](https://github.com/user-attachments/assets/7dc2bd46-c2ea-49cb-b94f-7ee42b268d56)
-
-*Performance comparison across different classification tasks*
-
-</div>
+We have adapted the original dataloaders to handle the 2025 dataset schema and compared the CNN's performance against traditional regression and ensemble methods (Adaboost, Logistic Regression, and Random Forest).
 
 ---
 
-## Model Architecture
-
-<div align="center">
-
-![CNN Architecture](https://github.com/user-attachments/assets/e76e8cb4-a185-4726-abcb-b50482786088)
-
-*Architecture of the CNN model for IoMT attack classification*
-
-</div>
+## Project Status & Functionality
+* **Dataloader Implementation:** Fully Functional. Supports automated CSV parsing and loadng for the IIoT 2025 dataset.
+* **CNN Model:** Fully Functional. Supports Binary (2), Categorical (8), and Multiclass (19) configurations.
+* **Comparison Models:** Fully Functional. Implementations for Adaboost, Random Forest, and Logistic Regression are included in the `/src` directory.
 
 ---
 
-## 🚀 Quick Start
+## Getting Started
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/alirezamohamadiam/Securing-Healthcare-with-Deep-Learning-A-CNN-Based-Model-for-medical-IoT-Threat-Detection.git
+git clone https://github.com/YouSoPugly/Securing-IoIT-With-A-CNN
 ```
-> Make sure Git is installed on your machine. If not, grab it from: https://git-scm.com/install
 
 ### Step 2: Install Requirements
 Navigate to Project Directory
 ```bash
-cd Securing-Healthcare-with-Deep-Learning-A-CNN-Based-Model-for-medical-IoT-Threat-Detection
+cd Securing-IoIT-With-A-CNN
 ```
 then:
 ```bash
 pip install -r requirements.txt
 ```
-> **Note:** Python 3.9+ is required
+> **Note:** We recommend using Python 3.9 for this project
 
 ### Step 3: Download Dataset
-Download the **CIC IoMT Dataset 2024** from:  
-🔗 [https://www.unb.ca/cic/datasets/iomt-dataset-2024.html](https://www.unb.ca/cic/datasets/iomt-dataset-2024.html)
+Download the **IIoT 2025 Dataset** from: [Link-to-Dataset](https://txst-my.sharepoint.com/:u:/g/personal/rii11_txstate_edu/IQDXQaMGbkfnT5b9pquzIxSXAaYTV1ulxJhmxXme1wqAuiE?e=ZHF350)
 
 ### Step 4: Prepare Data
-Place the CSV files in the data directories:
+Uncompress the .tar.xz file and replace the data/train/ and data/test/ folders with the ones in the uncompressed dataset (iiot2025/train/ iiot2025/test).
 ```
 data/
-├── train/     ← Put training CSV files here
-└── test/      ← Put testing CSV files here
+├── train/     ← Move files from iiot2025/train to data/train
+└── test/      ← Move files from iiot2025/test to data/test
 ```
-> **Detailed instructions:** See [`README_DATA.md`](https://github.com/alirezamohamadiam/Securing-Healthcare-with-Deep-Learning-A-CNN-Based-Model-for-medical-IoT-Threat-Detection/blob/main/README_DATA.md)
 
 ### Step 5: Run Training
 Navigate to the `src` directory:
 ```bash
 cd src
 ```
-To run the model, execute `main.py` and specify the classification configuration:
+To run the CNN model, execute `main.py` and specify the classification configuration:
 ```bash
 python main.py --class_config <num_classes>
 ```
 
 Replace `<num_classes>` with:
 - **2** for binary classification,
-- **6** for categorical,
+- **8** for categorical,
 - **19** for multiclass.
 
 **Example (binary classification):**
@@ -100,87 +67,27 @@ python main.py --class_config 2
 ```
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 project/
 ├── data/
-│   ├── train/            # Training CSV files (see README_DATA.md)
-│   └── test/             # Testing CSV files (see README_DATA.md)
+│   ├── train/                        # Training CSV files
+│   └── test/                         # Testing CSV files
 ├── src/
-│   ├── data_loader.py    # Data loading and preprocessing
-│   ├── model.py          # CNN model definition and training
-│   └── main.py           # Main execution script
-├── requirements.txt      # Project dependencies
-├── README.md             # Project documentation (this file)
-└── README_DATA.md        # Data preparation guide
+│   ├── data_loader.py                # Data loading and preprocessing
+│   ├── model.py                      # CNN model definition and training
+|   ├── train_logistic_regression.py  # Implemetation of Logistic Regression
+│   └── main.py                       # CNN execution script
+├── requirements.txt                  # Project dependencies
+└── README.md                         # What you're reading right now :D
 ```
 ---
 
-## 📚 Citation
+## Citations
 
-If you use this code or find our work helpful, please cite our paper:
-```bibtex
-@inproceedings{mohammadi2024securing,
-  title={Securing Healthcare with Deep Learning: A CNN-Based Model for medical IoT Threat Detection},
-  author={Mohammadi, Alireza and Ghahramani, Hosna and Asghari, Seyyed Amir and Aminian, Mehdi},
-  booktitle={2024 19th Iranian Conference on Intelligent Systems (ICIS)},
-  pages={168--173},
-  year={2024},
-  organization={IEEE}
-}
-```
-**Plain Text Citation (APA style):**
-```
-Mohammadi, A., Ghahramani, H., Asghari, S. A., & Aminian, M. (2024, October). Securing Healthcare with Deep Learning: A CNN-Based Model for medical IoT Threat Detection. In 2024 19th Iranian Conference on Intelligent Systems (ICIS) (pp. 168-173). IEEE.
-```
+[1] Mohammadi, A., Ghahramani, H., Asghari, S. A., & Aminian, M. (2024, October). Securing Healthcare with Deep Learning: A CNN-Based Model for medical IoT Threat Detection. In 2024 19th Iranian Conference on Intelligent Systems (ICIS) (pp. 168-173). IEEE.
 
-**Links:**
-The open-access PDF version of the paper is available on arXiv. You can read the full article there for free. 
+[2] Firouzi, A.; Dadkhah, S.; Maret, S.A.; Ghorbani, A.A. "DataSense: A Real-Time Sensor-Based Benchmark Dataset for Attack Analysis in IIoT with Multi-Objective Feature Selection." Electronics, 14, 4095, 2025.
 
-* 📄 **IEEE Xplore (official version, not open access):**
-  [https://doi.org/10.1109/ICIS64839.2024.10887510](https://doi.org/10.1109/ICIS64839.2024.10887510)
-
-* 📄 **arXiv (PDF and open-access version):**
-  [https://arxiv.org/abs/2410.23306](https://arxiv.org/abs/2410.23306)
 ---
-
-<div align="center">
-
-**⭐ If you find this work useful, please consider giving it a star! ⭐**
-
-Made with ❤️ by Alireza Mohamadi
-
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
