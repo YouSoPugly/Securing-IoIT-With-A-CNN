@@ -64,7 +64,7 @@ then:
 ```bash
 pip install -r requirements.txt
 ```
-> **Note:** Python 3.7+ is required
+> **Note:** Python 3.9+ is required
 
 ### Step 3: Download Dataset
 Download the **CIC IoMT Dataset 2024** from:  
