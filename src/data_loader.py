@@ -16,65 +16,52 @@ LABEL_COLUMN = {
     19: 'label3'
 }
 
-ATTACK_CATEGORIES_19 = {
-    # DDoS
-    'ack-fragmentation-flood': 'DDoS-Ack_Fragmentation_Flood',
-    'connect-flood':           'DDoS-Connect_Flood',
-    'http-flood':              'DDoS-HTTP_Flood',
-    'icmp-flood':              'DDoS-ICMP_Flood',
-    'icmp-fragmentation-flood':'DDoS-ICMP_Fragmentation_Flood',
-    'mqtt-publish-flood':      'DDoS-MQTT_Publish_Flood',
-    'pshack-flood':            'DDoS-PSHACK_Flood',
-    'rstfin-flood':            'DDoS-RSTFIN_Flood',
-    'slowloris':               'DDoS-Slowloris',
-    'syn-flood':               'DDoS-SYN_Flood',
-    'synonymous-ip-flood':     'DDoS-Synonymous_IP_Flood',
-    'tcp-flood':               'DDoS-TCP_Flood',
-    'udp-flood':               'DDoS-UDP_Flood',
-    'udp-fragmentation-flood': 'DDoS-UDP_Fragmentation_Flood',
-    # DoS (shares same sub-attack names, distinguished by label2)
-    'dos-ack-fragmentation-flood': 'DoS-Ack_Fragmentation_Flood',
-    'dos-connect-flood':           'DoS-Connect_Flood',
-    'dos-http-flood':              'DoS-HTTP_Flood',
-    'dos-icmp-flood':              'DoS-ICMP_Flood',
-    'dos-icmp-fragmentation-flood':'DoS-ICMP_Fragmentation_Flood',
-    'dos-mqtt-publish-flood':      'DoS-MQTT_Publish_Flood',
-    'dos-pshack-flood':            'DoS-PSHACK_Flood',
-    'dos-rstfin-flood':            'DoS-RSTFIN_Flood',
-    'dos-slowloris':               'DoS-Slowloris',
-    'dos-syn-flood':               'DoS-SYN_Flood',
-    'dos-synonymous-ip-flood':     'DoS-Synonymous_IP_Flood',
-    'dos-tcp-flood':               'DoS-TCP_Flood',
-    'dos-udp-flood':               'DoS-UDP_Flood',
-    'dos-udp-fragmentation-flood': 'DoS-UDP_Fragmentation_Flood',
+FLOOD_SUBTYPES_19 = {
+    'ack-frag-flood':     'Ack_Fragmentation_Flood',
+    'connect-flood':      'Connect_Flood',
+    'http-flood':         'HTTP_Flood',
+    'icmp-frag-flood':    'ICMP_Fragmentation_Flood',
+    'icmp-flood':         'ICMP_Flood',
+    'mqtt-publish-flood': 'MQTT_Publish_Flood',
+    'push-ack-flood':     'PSHACK_Flood',
+    'rst-fin-flood':      'RSTFIN_Flood',
+    'slowloris':          'Slowloris',
+    'syn-flood':          'SYN_Flood',
+    'synonymousip-flood': 'Synonymous_IP_Flood',
+    'tcp-flood':          'TCP_Flood',
+    'udp-frag-flood':     'UDP_Fragmentation_Flood',
+    'udp-flood':          'UDP_Flood',
+}
+
+NON_FLOOD_CATEGORIES_19 = {
     # Recon
-    'host-discovery-arp-ping':     'Recon-Host_Discovery_ARP_Ping',
-    'host-discovery-tcp-ack-ping': 'Recon-Host_Discovery_TCP_ACK_Ping',
-    'host-discovery-tcp-syn-ping': 'Recon-Host_Discovery_TCP_SYN_Ping',
-    'host-discovery-tcp-syn-stealth': 'Recon-Host_Discovery_TCP_SYN_Stealth',
-    'host-discovery-udp-ping':     'Recon-Host_Discovery_UDP_Ping',
-    'os-scan':                     'Recon-OS_Scan',
-    'ping-sweep':                  'Recon-Ping_Sweep',
-    'port-scan':                   'Recon-Port_Scan',
-    'vulnerability-scan':          'Recon-VulScan',
-    # Web
-    'backdoor-upload':             'Web-Backdoor_Upload',
-    'command-injection':           'Web-Command_Injection',
-    'sql-injection':               'Web-SQL_Injection',
-    'blind-sql-injection':         'Web-Blind_SQL_Injection',
-    'cross-site-scripting':        'Web-XSS',
+    'host-disc-arp-ping':        'Recon-Host_Discovery_ARP_Ping',
+    'host-disc-tcp-ack-ping':    'Recon-Host_Discovery_TCP_ACK_Ping',
+    'host-disc-tcp-syn-ping':    'Recon-Host_Discovery_TCP_SYN_Ping',
+    'host-disc-tcp-syn-stealth': 'Recon-Host_Discovery_TCP_SYN_Stealth',
+    'host-disc-udp-ping':        'Recon-Host_Discovery_UDP_Ping',
+    'os-scan':                   'Recon-OS_Scan',
+    'ping-sweep':                'Recon-Ping_Sweep',
+    'port-scan':                 'Recon-Port_Scan',
+    'vuln-scan':                 'Recon-VulScan',
+    'sql-injection-blind':       'Web-Blind_SQL_Injection',
+    'sql-injection':             'Web-SQL_Injection',
+    'backdoor-upload':           'Web-Backdoor_Upload',
+    'command-injection':         'Web-Command_Injection',
+    'xss':                       'Web-XSS',
     # Bruteforce
-    'ssh-bruteforce':              'Bruteforce-SSH',
-    'telnet-bruteforce':           'Bruteforce-Telnet',
+    'dictionary-ssh':            'Bruteforce-SSH',
+    'dictionary-telnet':         'Bruteforce-Telnet',
     # MITM
-    'arp-spoofing':                'MITM-ARP_Spoofing',
-    'impersonation':               'MITM-Impersonation',
-    'ip-spoofing':                 'MITM-IP_Spoofing',
+    'arp-spoofing':              'MITM-ARP_Spoofing',
+    'impersonation':             'MITM-Impersonation',
+    'ip-spoofing':               'MITM-IP_Spoofing',
     # Malware
-    'mirai-syn-flood':             'Malware-Mirai_SYN_Flood',
-    'mirai-udp-flood':             'Malware-Mirai_UDP_Flood',
+    'mirai-syn-flood':           'Malware-Mirai_SYN_Flood',
+    'mirai-udp-flood':           'Malware-Mirai_UDP_Flood',
+    'malware':                   'Malware-Other',
     # Benign
-    'benign':                      'Benign',
+    'benign':                    'Benign',
 }
 
 ATTACK_CATEGORIES_8 = {
@@ -85,6 +72,7 @@ ATTACK_CATEGORIES_8 = {
     'bruteforce': 'Bruteforce',
     'mitm':       'MITM',
     'malware':    'Malware',
+    'attack':     'Malware',
     'benign':     'Benign',
 }
 
@@ -93,22 +81,32 @@ ATTACK_CATEGORIES_2 = {
     'benign': 'Benign',
 }
 
-def get_attack_category(label, class_config):
-    if class_config == 2:
-        categories = ATTACK_CATEGORIES_2
-    elif class_config == 8:
-        categories = ATTACK_CATEGORIES_8
-    else:  # 19
-        categories = ATTACK_CATEGORIES_19
-
+def get_attack_category(label, class_config, coarse_label=None):
     key = str(label).strip().lower()
 
-    if key in categories:
-        return categories[key]
+    if class_config in (2, 8):
+        categories = ATTACK_CATEGORIES_2 if class_config == 2 else ATTACK_CATEGORIES_8
+        if key in categories:
+            return categories[key]
+        for cat_key, cat_val in categories.items():
+            if cat_key in key:
+                return cat_val
+        return None
 
-    for cat_key in categories:
-        if cat_key in key:
-            return categories[cat_key]
+    if class_config == 19:
+        if key in NON_FLOOD_CATEGORIES_19:
+            return NON_FLOOD_CATEGORIES_19[key]
+        for cat_key, cat_val in NON_FLOOD_CATEGORIES_19.items():
+            if cat_key in key:
+                return cat_val
+
+        coarse = str(coarse_label).strip().lower() if coarse_label is not None else ''
+        if coarse in ('ddos', 'dos'):
+            prefix = 'DDoS' if coarse == 'ddos' else 'DoS'
+            for cat_key, cat_val in FLOOD_SUBTYPES_19.items():
+                if cat_key in key:
+                    return f'{prefix}-{cat_val}'
+        return None
 
     return None
 
@@ -132,8 +130,18 @@ def load_and_preprocess_data(data_dir, class_config):
     train_df = _load_split('train')
     test_df  = _load_split('test')
 
-    y_train = train_df[label_col].apply(lambda x: get_attack_category(x, class_config))
-    y_test  = test_df[label_col].apply(lambda x: get_attack_category(x, class_config))
+    if class_config == 19:
+        y_train = train_df.apply(
+            lambda row: get_attack_category(row[label_col], 19, row.get('label2')),
+            axis=1,
+        )
+        y_test = test_df.apply(
+            lambda row: get_attack_category(row[label_col], 19, row.get('label2')),
+            axis=1,
+        )
+    else:
+        y_train = train_df[label_col].apply(lambda x: get_attack_category(x, class_config))
+        y_test  = test_df[label_col].apply(lambda x: get_attack_category(x, class_config))
 
 
     X_train = train_df.drop(columns=[c for c in META_COLUMNS if c in train_df.columns])
