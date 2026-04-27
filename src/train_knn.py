@@ -19,131 +19,13 @@ from data_loader import load_and_preprocess_data
 
 
 def flatten_features(X):
-    """
-    Convert data from shape (n_samples, n_features, 1) to (n_samples, n_features).
-    If X is already 2D, return it unchanged.
-    """
     if len(X.shape) == 3:
         return X.reshape(X.shape[0], X.shape[1])
     return X
 
 
 def one_hot_to_labels(y):
-    """
-    Convert one-hot encoded labels to class indices.
-    """
     return np.argmax(y, axis=1)
-
-
-# Best Score: 0.862 {'metric': 'minkowski', 'n_neighbors': 4, 'weights': 'distance'}
-# def train_knn_with_resume(
-#     X_train,
-#     y_train,
-#     checkpoint_path="knn_checkpoint.json",
-#     cv=5,
-# ):
-#     """
-#     Manual grid search for KNN with:
-#     - progress bar
-#     - live best score display
-#     - pause/resume via checkpoint file
-#     """
-#     param_grid = {
-#         "n_neighbors": [4],
-#         "weights": ["distance"],
-#         "metric": ["minkowski"],
-#     }
-#
-#     grid = list(ParameterGrid(param_grid))
-#     total = len(grid)
-#
-#     start_idx = 0
-#     best_score = -1.0
-#     best_params = None
-#
-#     # Resume from checkpoint if it exists
-#     if os.path.exists(checkpoint_path):
-#         try:
-#             with open(checkpoint_path, "r") as f:
-#                 checkpoint = json.load(f)
-#
-#             start_idx = int(checkpoint.get("last_index", -1)) + 1
-#             best_score = float(checkpoint.get("best_score", -1.0))
-#             best_params = checkpoint.get("best_params", None)
-#
-#             print(f"Resuming from checkpoint: {checkpoint_path}")
-#             print(f"Starting at combination {start_idx + 1} of {total}")
-#             if best_params is not None:
-#                 print(f"Current best score: {best_score:.6f}")
-#                 print(f"Current best params: {best_params}")
-#         except Exception as e:
-#             print(f"Could not load checkpoint ({e}). Starting fresh.")
-#             start_idx = 0
-#             best_score = -1.0
-#             best_params = None
-#
-#     try:
-#         with tqdm(total=total, initial=start_idx, desc="Grid Search", unit="combo") as pbar:
-#             for i in range(start_idx, total):
-#                 params = grid[i]
-#                 model = KNeighborsClassifier(**params)
-#
-#                 scores = cross_val_score(
-#                     model,
-#                     X_train,
-#                     y_train,
-#                     cv=cv,
-#                     scoring="f1_weighted",
-#                     n_jobs=-1,
-#                 )
-#
-#                 mean_score = float(np.mean(scores))
-#
-#                 improved = mean_score > best_score
-#                 if improved:
-#                     best_score = mean_score
-#                     best_params = params
-#                     print(
-#                         f"\nNew best at combo {i + 1}/{total}: "
-#                         f"score={best_score:.6f}, params={best_params}"
-#                     )
-#
-#                 # Update live progress bar with the current and best scores
-#                 pbar.set_postfix(
-#                     current_score=f"{mean_score:.6f}",
-#                     best_score=f"{best_score:.6f}",
-#                 )
-#                 pbar.update(1)
-#
-#                 # Save checkpoint after each parameter set
-#                 checkpoint = {
-#                     "last_index": i,
-#                     "best_score": best_score,
-#                     "best_params": best_params,
-#                 }
-#                 with open(checkpoint_path, "w") as f:
-#                     json.dump(checkpoint, f)
-#
-#     except KeyboardInterrupt:
-#         print("\nPaused. Progress was saved to checkpoint.")
-#         print(f"Run again to resume from: {checkpoint_path}")
-#         return None, None
-#
-#     if best_params is None:
-#         raise RuntimeError("Grid search finished but no best parameters were found.")
-#
-#     print("\nGrid search complete.")
-#     print("Best Params:", best_params)
-#     print("Best CV Score:", best_score)
-#
-#     final_model = KNeighborsClassifier(**best_params)
-#     final_model.fit(X_train, y_train)
-#
-#     # Remove checkpoint after successful completion
-#     if os.path.exists(checkpoint_path):
-#         os.remove(checkpoint_path)
-#
-#     return final_model, best_params
 
 
 def evaluate_model(model, X_test, y_test, label_encoder):
@@ -186,16 +68,10 @@ if __name__ == "__main__":
         default=19,
         help="Number of classes for classification (2, 8, or 19)",
     )
-    parser.add_argument(
-        "--data_dir",
-        type=str,
-        default=None,
-        help="Path to the data directory. If omitted, uses ../data relative to this file.",
-    )
     args = parser.parse_args()
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = args.data_dir or os.path.join(script_dir, "..", "data")
+    data_dir = os.path.join(script_dir, "..", "data")
 
     X_train, X_val, X_test, y_train_categorical, y_val_categorical, y_test_categorical, label_encoder = load_and_preprocess_data(
         data_dir, args.class_config

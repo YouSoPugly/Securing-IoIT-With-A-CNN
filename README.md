@@ -13,7 +13,7 @@ We have adapted the original dataloaders to handle the 2025 dataset schema and c
 ## Project Status & Functionality
 * **Dataloader Implementation:** Fully Functional. Supports automated CSV parsing and loadng for the IIoT 2025 dataset.
 * **CNN Model:** Fully Functional. Supports Binary (2), Categorical (8), and Multiclass (19) configurations.
-* **Comparison Models:** Fully Functional. Implementations for Adaboost, Random Forest, and Logistic Regression are included in the `/src` directory.
+* **Comparison Models:** Fully Functional. Implementations for K-Nearest Neighbors, Adaboost, Random Forest, and Logistic Regression are included in the `/src` directory.
 
 ---
 
@@ -78,6 +78,7 @@ project/
 │   ├── data_loader.py                # Data loading and preprocessing
 │   ├── model.py                      # CNN model definition and training
 |   ├── train_logistic_regression.py  # Implemetation of Logistic Regression
+|   ├── train_knn.py                  # Implemetation of K-Nearest Neighbors
 │   └── main.py                       # CNN execution script
 ├── requirements.txt                  # Project dependencies
 └── README.md                         # What you're reading right now :D
