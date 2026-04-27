@@ -67,6 +67,11 @@ python main.py --class_config 2
 ```
 ---
 
+To run the Logistic Regression model, execute `train_logistic_regression.py` and specify the classification configuration:
+```bash
+python train_logistic_regression.py --class_config <num_classes>
+```
+
 ## Project Structure
 
 ```
