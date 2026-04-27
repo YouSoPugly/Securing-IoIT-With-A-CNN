@@ -72,6 +72,11 @@ To run the Logistic Regression model, execute `train_logistic_regression.py` and
 python train_logistic_regression.py --class_config <num_classes>
 ```
 
+To run the Random Forest model, execute `train_random_forest.py` and do the same
+```bash
+python train_random_forest.py --class_config <num_classes>
+```
+
 ## Project Structure
 
 ```
