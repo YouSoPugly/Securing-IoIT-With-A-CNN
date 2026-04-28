@@ -1,4 +1,5 @@
 # CS.4371 Group 6 Project
+By: **Dylan Priebe, Dylan Fennell, Aaron Espinoza, and Jeremiah Stone**
 ## Overview
 This project evaluates the robustness of the 1D-CNN architecture originally proposed for Medical IoT (IoMT) when applied to Industrial IoT (IIoT) environments. 
 
@@ -6,14 +7,14 @@ Following the "archeology of ideas" in this field:
 * **Foundational Bedrock:** Our work is built upon the research done by **Mohammadi et al. (2024)** [1], which established the effectiveness of CNNs in detecting threats within healthcare IoT device traffic.
 * **Contemporary Context:** We acknowledge and build upon the findings of **Firouzi et al. (2025)** [2], who introduced the **IIoT 2025 Dataset**. This dataset represents the modern landscape of industrial sensor attacks that our implementation aims to mitigate.
 
-We have adapted the original dataloaders to handle the 2025 dataset schema and compared the CNN's performance against traditional regression and ensemble methods (Adaboost, Logistic Regression, and Random Forest).
+We have adapted the original dataloaders to handle the 2025 dataset schema and compared the CNN's performance against traditional regression and ensemble methods (K-Nearest Neighbors, Random Forest, and Logistic Regression).
 
 ---
 
 ## Project Status & Functionality
 * **Dataloader Implementation:** Fully Functional. Supports automated CSV parsing and loadng for the IIoT 2025 dataset.
 * **CNN Model:** Fully Functional. Supports Binary (2), Categorical (8), and Multiclass (19) configurations.
-* **Comparison Models:** Fully Functional. Implementations for K-Nearest Neighbors, Adaboost, Random Forest, and Logistic Regression are included in the `/src` directory.
+* **Comparison Models:** Fully Functional. Implementations for K-Nearest Neighbors, Random Forest, and Logistic Regression are included in the `/src` directory.
 
 ---
 
@@ -56,27 +57,32 @@ To run the CNN model, execute `main.py` and specify the classification configura
 python main.py --class_config <num_classes>
 ```
 
-Replace `<num_classes>` with:
-- **2** for binary classification,
-- **8** for categorical,
-- **19** for multiclass.
-
-**Example (binary classification):**
-```bash
-python main.py --class_config 2
-```
----
-
 To run the Logistic Regression model, execute `train_logistic_regression.py` and specify the classification configuration:
 ```bash
 python train_logistic_regression.py --class_config <num_classes>
 ```
 
-To run the Random Forest model, execute `train_random_forest.py` and do the same
+To run the Random Forest model, execute `train_random_forest.py` and specify the classification configuration:
 ```bash
 python train_random_forest.py --class_config <num_classes>
 ```
 
+To run the K-Nearest Neighbors model, execute `train_knn.py` and specify the classification configuration:
+```bash
+python train_knn.py --class_config <num_classes>
+```
+
+Replace `<num_classes>` with:
+- **2** for binary classification,
+- **8** for categorical,
+- **19** for multiclass.
+
+**Example (CNN with binary classification):**
+```bash
+python main.py --class_config 2
+```
+
+---
 ## Project Structure
 
 ```
@@ -87,8 +93,9 @@ project/
 ├── src/
 │   ├── data_loader.py                # Data loading and preprocessing
 │   ├── model.py                      # CNN model definition and training
-|   ├── train_logistic_regression.py  # Implemetation of Logistic Regression
-|   ├── train_knn.py                  # Implemetation of K-Nearest Neighbors
+|   ├── train_logistic_regression.py  # Implementation of Logistic Regression
+|   ├── train_knn.py                  # Implementation of K-Nearest Neighbors
+|   ├── train_random_forest.py        # Implementation of Random Forest
 │   └── main.py                       # CNN execution script
 ├── requirements.txt                  # Project dependencies
 └── README.md                         # What you're reading right now :D
