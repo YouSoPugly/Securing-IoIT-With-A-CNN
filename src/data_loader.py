@@ -4,12 +4,14 @@ from tensorflow.keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
 import os
 
+# Metadata columns should not be used as features for model training
 META_COLUMNS = [
     'device_name', 'device_mac',
     'label_full', 'label1', 'label2', 'label3', 'label4',
     'timestamp', 'timestamp_start', 'timestamp_end'
 ]
 
+# Maps the chosen classification (2, 8, or 19) to the correct label column
 LABEL_COLUMN = {
     2:  'label1',
     8:  'label2',
@@ -84,15 +86,18 @@ ATTACK_CATEGORIES_2 = {
 def get_attack_category(label, class_config, coarse_label=None):
     key = str(label).strip().lower()
 
+    # Handle Binary (2) or Coarse (8) Multi-class configurations
     if class_config in (2, 8):
         categories = ATTACK_CATEGORIES_2 if class_config == 2 else ATTACK_CATEGORIES_8
         if key in categories:
             return categories[key]
+        # Fallback: substring matching (e.g., catching 'ddos-syn-flood' if 'ddos' is the key)
         for cat_key, cat_val in categories.items():
             if cat_key in key:
                 return cat_val
         return None
 
+    # Handle Fine-grained (19) Configuration
     if class_config == 19:
         if key in NON_FLOOD_CATEGORIES_19:
             return NON_FLOOD_CATEGORIES_19[key]
@@ -100,6 +105,7 @@ def get_attack_category(label, class_config, coarse_label=None):
             if cat_key in key:
                 return cat_val
 
+        # Flood subtypes require the coarse label to distinguish between DoS and DDoS variants
         coarse = str(coarse_label).strip().lower() if coarse_label is not None else ''
         if coarse in ('ddos', 'dos'):
             prefix = 'DDoS' if coarse == 'ddos' else 'DoS'
@@ -117,6 +123,7 @@ def load_and_preprocess_data(data_dir, class_config):
     label_col = LABEL_COLUMN[class_config]
 
     def _load_split(split: str) -> pd.DataFrame:
+        #Helper to concatenate all CSV partitions inside a split directory
         split_dir = os.path.join(data_dir, split)
         files = [
             os.path.join(split_dir, f)
@@ -127,10 +134,13 @@ def load_and_preprocess_data(data_dir, class_config):
             raise FileNotFoundError(f"No CSV files found in: {split_dir}")
         return pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
 
+    # Load data
     train_df = _load_split('train')
     test_df  = _load_split('test')
 
+    # Process Labels
     if class_config == 19:
+        # Pass label2 (class 8) as contextual helper for flood subtypes
         y_train = train_df.apply(
             lambda row: get_attack_category(row[label_col], 19, row.get('label2')),
             axis=1,
@@ -143,7 +153,7 @@ def load_and_preprocess_data(data_dir, class_config):
         y_train = train_df[label_col].apply(lambda x: get_attack_category(x, class_config))
         y_test  = test_df[label_col].apply(lambda x: get_attack_category(x, class_config))
 
-
+    # Strip metadata and clean up
     X_train = train_df.drop(columns=[c for c in META_COLUMNS if c in train_df.columns])
     X_test  = test_df.drop(columns=[c for c in META_COLUMNS if c in test_df.columns])
 
@@ -153,6 +163,7 @@ def load_and_preprocess_data(data_dir, class_config):
     X_train = X_train.drop(columns=non_numeric_cols)
     X_test  = X_test.drop(columns=[c for c in non_numeric_cols if c in X_test.columns])
 
+    # Convert string labels -> integers -> one-hot arrays
     label_encoder = LabelEncoder()
     y_train_encoded = label_encoder.fit_transform(y_train)
     y_test_encoded  = label_encoder.transform(y_test)
@@ -160,15 +171,18 @@ def load_and_preprocess_data(data_dir, class_config):
     y_train_categorical = to_categorical(y_train_encoded)
     y_test_categorical  = to_categorical(y_test_encoded)
 
+    # Split train & val
     X_train, X_val, y_train_categorical, y_val_categorical = train_test_split(
         X_train, y_train_categorical, test_size=0.2, random_state=42
     )
 
+    # Standardize to zero mean/unit variance to stabilize nn grad desc
     scaler  = StandardScaler()
     X_train = scaler.fit_transform(X_train)
     X_val   = scaler.transform(X_val)
     X_test  = scaler.transform(X_test)
 
+    # Reshape to add a channel dimension (samples, timesteps/features, channels)
     X_train = X_train.reshape(X_train.shape[0], X_train.shape[1], 1)
     X_val   = X_val.reshape(X_val.shape[0],   X_val.shape[1],   1)
     X_test  = X_test.reshape(X_test.shape[0],  X_test.shape[1],  1)
