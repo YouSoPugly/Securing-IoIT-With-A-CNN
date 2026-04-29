@@ -10,8 +10,8 @@ if __name__ == "__main__":
     tf.config.threading.set_intra_op_parallelism_threads(0)
 
     parser = argparse.ArgumentParser(description="Train and evaluate a CNN for network intrusion detection.")
-    parser.add_argument("--class_config", type=int, choices=[2, 6, 19], default=2,
-                        help="Number of classes for classification (2, 6, or 19)")
+    parser.add_argument("--class_config", type=int, choices=[2, 8, 19], default=2,
+                        help="Number of classes for classification (2, 8, or 19)")
     args = parser.parse_args()
 
     # Get the absolute path of the directory where this script is located 
