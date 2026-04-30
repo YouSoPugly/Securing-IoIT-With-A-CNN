@@ -102,6 +102,27 @@ project/
 ```
 ---
 
+## Results
+CNN Results:
+* Binary Classification: 0.98
+* Categorial Classification: 0.97
+* Mutliclass Classifcation: 0.85
+
+Logistic Regression Results:
+* Binary Classification: 0.92
+* Categorial Classification: 0.87
+* Mutliclass Classifcation: 0.76
+
+KNN Results:
+* Binary Classification: 0.98
+* Categorial Classification: 0.96
+* Mutliclass Classifcation: 0.88
+
+Random Forest Results:
+* Binary Classification: 0.99
+* Categorial Classification: 0.99
+* Mutliclass Classifcation: 0.94
+
 ## Citations
 
 [1] Mohammadi, A., Ghahramani, H., Asghari, S. A., & Aminian, M. (2024, October). Securing Healthcare with Deep Learning: A CNN-Based Model for medical IoT Threat Detection. In 2024 19th Iranian Conference on Intelligent Systems (ICIS) (pp. 168-173). IEEE.
