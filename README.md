@@ -37,7 +37,7 @@ pip install -r requirements.txt
 > **Note:** We recommend using Python 3.9 for this project
 
 ### Step 3: Download Dataset
-Download the **IIoT 2025 Dataset** from: [Link-to-Dataset](https://txst-my.sharepoint.com/:u:/g/personal/rii11_txstate_edu/IQDXQaMGbkfnT5b9pquzIxSXAaYTV1ulxJhmxXme1wqAuiE?e=ZHF350)
+Download the **IIoT 2025 Dataset** from: [Link-to-Dataset](https://txst-my.sharepoint.com/:u:/g/personal/rii11_txstate_edu/IQD9ne4wQmzvS4Rm0EB0x3ZlAcT8tvtqYWuCQ1xXaPb3BCY?e=9ttbxy)
 
 ### Step 4: Prepare Data
 Uncompress the .tar.xz file and replace the data/train/ and data/test/ folders with the ones in the uncompressed dataset (iiot2025/train/ iiot2025/test).
