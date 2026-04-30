@@ -40,7 +40,7 @@ pip install -r requirements.txt
 Download the **IIoT 2025 Dataset** from: [Link-to-Dataset](https://txst-my.sharepoint.com/:u:/g/personal/rii11_txstate_edu/IQD9ne4wQmzvS4Rm0EB0x3ZlAcT8tvtqYWuCQ1xXaPb3BCY?e=9ttbxy)
 
 ### Step 4: Prepare Data
-Uncompress the .tar.xz file and replace the data/train/ and data/test/ folders with the ones in the uncompressed dataset (iiot2025/train/ iiot2025/test).
+Uncompress the .tar file and replace the data/train/ and data/test/ folders with the ones in the uncompressed dataset (iiot2025/train/ iiot2025/test).
 ```
 data/
 ├── train/     ← Move files from iiot2025/train to data/train
